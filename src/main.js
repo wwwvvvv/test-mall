@@ -3,8 +3,17 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueLazyLoad from 'vue-lazyload'
+import infiniteScroll from 'vue-infinite-scroll'
+import filters from './lib/filters';
 
 Vue.config.productionTip = false
+
+Vue.use(VueLazyLoad, {
+  loading: './static/loading-svg/loading-bars.svg'
+});
+Vue.use(infiniteScroll);
+Vue.use(filters);
 
 /* eslint-disable no-new */
 new Vue({
@@ -12,4 +21,4 @@ new Vue({
   router,
   components: { App },
   template: '<App/>'
-})
+});

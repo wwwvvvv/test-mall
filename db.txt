@@ -1,0 +1,48 @@
+Goods:
+{
+  "productId": String,
+  "productName": String,
+  "salePrice": Number,
+  "checked": String, //?
+  "productNum": Number, //库存？
+  "productImage": String
+}
+
+Users:
+{
+  "userId": String,
+  "userName": String,
+  "userPwd": String,
+  "orderList": Array,
+  "cartList": [ //购物车
+    {
+      "productId": String,
+      "productName": String,
+      "salePrice": Number,
+        "checked": String, //当前商品是否选中
+        "productNum": Number, //购买的数量
+        "productImage": String
+    }
+  ],
+  "addressList": [
+    {
+      "addressId": String,
+      "userName": String,
+      "streetName": String,
+      "postCode": Number,
+      "tel": String,
+      "isDefault": Boolean //是不是默认地址
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
