@@ -44,50 +44,82 @@
           </div>
         </div>
       </div>
-      <div class="md-modal modal-msg md-modal-transition" :class="[loginModalFlag? 'md-show' : '']">
-        <!--v-bind:class="{'md-show':loginModalFlag}"-->
-        <div class="md-modal-inner">
-          <div class="md-top">
-            <div class="md-title">Login in</div>
-            <button class="md-close" @click="hideLoginModal">Close</button>
-            <!--@click="loginModalFlag=false"-->
-          </div>
-          <div class="md-content">
-            <div class="confirm-tips">
-              <div class="error-wrap">
-                <span class="error error-show" v-show="errTip">{{errTipText}}</span>
-                <!--v-show="errorTip"-->
-              </div>
-              <ul>
-                <li class="regi_form_input">
-                  <i class="icon IconPeople"></i>
-                  <input type="text" tabindex="1" name="loginname" v-model="userName"
-                         class="regi_login_input regi_login_input_left" placeholder="User Name" data-type="loginname">
-                </li>
-                <li class="regi_form_input noMargin">
-                  <i class="icon IconPwd"></i>
-                  <input type="password" tabindex="2"  name="password" v-model="password"
-                         class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="Password">
-                  <!--@keyup.enter="login"-->
-                </li>
-              </ul>
-            </div>
-            <div class="login-wrap">
-              <a href="javascript:;" class="btn-login" @click="login">登  录</a>
-              <!--@click="login"-->
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="md-overlay" v-show="loginModalFlag"></div>
+      <!--<div class="md-modal modal-msg md-modal-transition" :class="[loginModalFlag? 'md-show' : '']">-->
+        <!--&lt;!&ndash;v-bind:class="{'md-show':loginModalFlag}"&ndash;&gt;-->
+        <!--<div class="md-modal-inner">-->
+          <!--<div class="md-top">-->
+            <!--<div class="md-title">Login in</div>-->
+            <!--<button class="md-close" @click="hideLoginModal">Close</button>-->
+            <!--&lt;!&ndash;@click="loginModalFlag=false"&ndash;&gt;-->
+          <!--</div>-->
+          <!--<div class="md-content">-->
+            <!--<div class="confirm-tips">-->
+              <!--<div class="error-wrap">-->
+                <!--<span class="error error-show" v-show="errTip">{{errTipText}}</span>-->
+                <!--&lt;!&ndash;v-show="errorTip"&ndash;&gt;-->
+              <!--</div>-->
+              <!--<ul>-->
+                <!--<li class="regi_form_input">-->
+                  <!--<i class="icon IconPeople"></i>-->
+                  <!--<input type="text" tabindex="1" name="loginname" v-model="userName"-->
+                         <!--class="regi_login_input regi_login_input_left" placeholder="User Name" data-type="loginname">-->
+                <!--</li>-->
+                <!--<li class="regi_form_input noMargin">-->
+                  <!--<i class="icon IconPwd"></i>-->
+                  <!--<input type="password" tabindex="2"  name="password" v-model="password"-->
+                         <!--class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="Password">-->
+                  <!--&lt;!&ndash;@keyup.enter="login"&ndash;&gt;-->
+                <!--</li>-->
+              <!--</ul>-->
+            <!--</div>-->
+            <!--<div class="login-wrap">-->
+              <!--<a href="javascript:;" class="btn-login" @click="login">登  录</a>-->
+              <!--&lt;!&ndash;@click="login"&ndash;&gt;-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="md-overlay" v-show="loginModalFlag"></div>-->
       <!--@click="loginModalFlag=false"-->
+      <modal v-model="loginModalFlag">
+        <template v-slot:title>
+          <div class="md-title">Login in</div>
+        </template>
+        <template v-slot:content>
+          <div class="error-wrap">
+            <span class="error error-show" v-show="errTip">{{errTipText}}</span>
+            <!--v-show="errorTip"-->
+          </div>
+          <ul>
+            <li class="regi_form_input">
+              <i class="icon IconPeople"></i>
+              <input type="text" tabindex="1" name="loginname" v-model="userName"
+                     class="regi_login_input regi_login_input_left" placeholder="User Name" data-type="loginname">
+            </li>
+            <li class="regi_form_input noMargin">
+              <i class="icon IconPwd"></i>
+              <input type="password" tabindex="2"  name="password" v-model="password"
+                     class="regi_login_input regi_login_input_left login-input-no input_text"
+                     placeholder="Password" @keyup.enter="login">
+              <!--@keyup.enter="login"-->
+            </li>
+          </ul>
+        </template>
+        <template #button>
+          <a href="javascript:;" class="btn-login" @click="login">登  录</a>
+        </template>
+      </modal>
     </header>
 </template>
 
 <script>
   import API from './../api/index';
+  import Modal from './../components/Modal';
   export default {
     name: "NavHeader",
+    components: {
+      Modal
+    },
     data() {
       return {
         userName: "",

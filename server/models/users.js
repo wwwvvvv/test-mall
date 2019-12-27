@@ -4,7 +4,20 @@ let userSchema = new Schema({
   userId: String,
   userName: String,
   password: String,
-  orderList: Array,
+  orderList: [
+//     orderStatus: {
+//   '0': 0, //未支付
+//     '1': 1 // 已支付
+// },
+    {
+      addressInfo: {},
+      goodsList: Array,
+      orderStatus: String,
+      createDate: Date,
+      orderId: String,
+      orderTotal: Number
+    }
+  ],
   cartList: [
     {
       productId: String,
@@ -18,7 +31,17 @@ let userSchema = new Schema({
       productNum: Number
     }
   ],
-  addressList: Array
+  addressList: [{
+    isDefault: {
+      type: Boolean,
+      default: false
+    },
+    addressId: String,
+    userName: String,
+    streetName: String,
+    postCode: String,
+    tel: String
+  }]
 });
 
 let userModel = mongoose.model('users', userSchema);

@@ -34,6 +34,16 @@ class userService extends BaseService{
     entity.save(cb);
   }
 
+  // getCartList(query,cb) {
+  //   this.findOne(query, function (err, doc) {
+  //     if (err) {
+  //       return cb(err);
+  //     }
+  //    let cartList = doc? doc.cartList : []
+  //     cb(null, cartList);
+  //   });
+  // }
+
 }
 
 module.exports = new userService();

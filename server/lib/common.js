@@ -19,6 +19,10 @@ var me = {
     }
     res.json(ret);
   },
+  // orderStatus: {
+  //   '0': 0, //未支付
+  //   '1': 1 // 已支付
+  // },
   checkLogin(req, res, next) {
     let hasLogin = !!req.session.user;
     if (hasLogin) {

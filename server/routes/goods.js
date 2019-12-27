@@ -20,14 +20,5 @@ router.get('/priceFilter', function (req, res, next) {
   });
 });
 
-router.post('/addCart',common.checkLogin2, function (req, res, next) {
-  //假设已经登录了
-  let userId = '100000077';
-  let productId = req.body.productId;
-  goodsService.addCart({userId, productId}, function (err, doc) {
-    common.resJson(res, err, doc);
-  });
-});
-
 
 module.exports = router;

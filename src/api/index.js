@@ -13,9 +13,6 @@ let API = {
     getGoods(params) {
       // console.log(ajax.get('/goods', noParams));
       return ajax.get('goods', params);
-    },
-    addCart(params) {
-      return ajax.post('goods/addCart', params);
     }
 
     // priceFilter(params) {
@@ -31,6 +28,42 @@ let API = {
     },
     checkLogin() {
       return ajax.get('/users/checkLogin', noParams);
+    }
+  },
+  cart: {
+    addCart(params) {
+      return ajax.post('cart/addCart', params);
+    },
+    getCartList() {
+      return ajax.get('/cart/cartList', noParams);
+    },
+    delCartProduct(params) {
+      return ajax.post('/cart/del', params)
+    },
+    updateCartNum(params) {
+      return ajax.post('/cart/updateCartNum', params);
+    },
+    toggleCheckAll(params) {
+      return ajax.post('/cart/updateCheckAll', params);
+    }
+  },
+  address: {
+    getAddressList() {
+      return ajax.get('/address/getAddressList', noParams);
+    },
+    setDefault(params) {
+      return ajax.post('/address/setDefault', params)
+    },
+    delete(params) {
+      return ajax.post('/address/delete', params);
+    }
+  },
+  order: {
+    payment(params) {
+      return ajax.post('/order/payment', params);
+    },
+    getDetail(params) {
+      return ajax.get('/order/getDetail', params);
     }
   }
 };

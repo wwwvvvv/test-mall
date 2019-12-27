@@ -27,34 +27,6 @@ class GoodsService extends BaseService{
     });
   }
 
-  addCart({userId, productId}, cb) {
-    userService.findUser({userId}, (userErr, user) => {
-      if (userErr) {
-        return cb(userErr);
-      }
-      this.findOne({productId}, (productErr, product) => {
-        if (productErr) {
-          return cb(productErr);
-        }
-        let goodItem = '';
-        for(let item of user.cartList) {
-          if (item.productId === productId) {
-            goodItem = item;
-            item.productNum++;
-            break;
-          }
-        }
-        if (!goodItem){
-          product.checked = true;
-          product.productNum = 1;
-          user.cartList.push(product);
-        }
-        user.save(cb);
-        // console.log(user);
-      });
-    });
-  }
-
   // getPriceFilterGoods(query, cb) {
   //   let q = {salePrice: {}};
   //   if (query.start) {

@@ -42,7 +42,7 @@
                   </div>
                   <div class="main">
                     <div class="name">{{item.productName}}</div>
-                    <div class="price">{{item.salePrice | money}}</div>
+                    <div class="price">{{item.salePrice | currency}}</div>
                     <div class="btn-area">
                       <a href="javascript:;" class="btn btn--m" @click="addCard(item.productId)">加入购物车</a>
                     </div>
@@ -66,6 +66,26 @@
     </div>
     <div class="md-overlay" v-show="showOverLay" @click.stop="closePop"></div>
     <page-footer></page-footer>
+    <modal v-model="modalFlag">
+      <template #content>
+        <div>
+          <p v-if="!hasLogin">{{errMsg}}</p>
+          <p v-else>
+            <i class="iconfont iconchenggong success-icon"></i>
+            加入购物车完成！
+          </p>
+        </div>
+      </template>
+      <template #button>
+        <div v-if="hasLogin">
+          <a href="javascript:;" class="btn btn--m" @click="hideModal">继续购物</a>
+          <router-link class="btn btn--m" to="/cart">查看购物车</router-link>
+        </div>
+        <div v-else>
+          <button @click="modalFlag=false;" class="btn btn--m btn--red">关闭</button>
+        </div>
+      </template>
+    </modal>
   </div>
 </template>
 
@@ -73,6 +93,7 @@
   import NavHeader from '@/components/NavHeader';
   import PageFooter from '@/components/PageFooter';
   import NavBread from '@/components/NavBread';
+  import Modal from '@/components/Modal';
 
   import API from './../api/index';
   export default {
@@ -80,7 +101,8 @@
     components: {
       NavHeader,
       PageFooter,
-      NavBread
+      NavBread,
+      Modal
     },
     data() {
       return {//不允许组件之间的数据共享
@@ -90,6 +112,9 @@
         curPriceFilter: {start: '', end: ''},
         curSortBy: 'Default',
         isLoading: false,
+        modalFlag: false,
+        errMsg: '',
+        hasLogin: false,
         sortBy: [
           'Default',
           'Price'
@@ -176,12 +201,22 @@
           this.getGoodsList(true);
         }, 500);
       },
+      // tipUserLogin() {
+      // },
       async addCard(productId) {
-        let rs = await API.goods.addCart({productId});
+        let rs = await API.cart.addCart({productId});
         if (rs.code !== 0) {
-          alert(rs.msg);
+          this.hasLogin = false;
+          this.errMsg = '请先登录，否则无法加入到购物车!';
+        } else {
+          this.hasLogin = true;
         }
+        this.modalFlag = true;
+
         console.log(rs);
+      },
+      hideModal() {
+        this.modalFlag = false;
       }
     },
     mounted() {
@@ -203,5 +238,12 @@
     height: 100px;
     line-height: 100px;
     text-align: center;
+  }
+  .success-icon {
+    color: rgb(82,196,26);
+    font-size: 22px;
+    vertical-align: -2px;
+    line-height: 28px;
+    margin-right: 6px;
   }
 </style>

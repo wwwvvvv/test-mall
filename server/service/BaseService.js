@@ -11,6 +11,10 @@ class BaseService {
     this.model.find.apply(this.model, arguments);
   }
 
+  updateOne(query, update, cb) {
+    this.model.update(query, update, cb);
+  }
+
   findSkipAndSort({sort = {}, pageNum = 1, pageSize = 10, searchQuery} = {}, cb) {
     let skip = (pageNum - 1) * pageSize;
     // console.log(sort.salePrice);

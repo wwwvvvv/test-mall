@@ -11,6 +11,9 @@ var setttings = require('./config/mongo');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var goodsRouter = require('./routes/goods');
+var cartRouter = require('./routes/cart');
+var addressRouter = require('./routes/address');
+var orderRouter = require('./routes/order');
 
 var app = express();
 
@@ -28,7 +31,7 @@ app.use(session({
   secret: setttings.cookieSecret,
   key: setttings.db,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 30
+    maxAge: 1000 * 60 * 60 * 24 * 1 //一天过期
   },
   store: new mongoStore({
     url: setttings.url
@@ -48,6 +51,9 @@ app.use(function (req, res, next) {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/goods', goodsRouter);
+app.use('/cart', cartRouter);
+app.use('/address', addressRouter);
+app.use('/order', orderRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
