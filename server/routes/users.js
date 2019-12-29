@@ -43,7 +43,9 @@ router.get('/checkLogin', function (req, res, next) {
   // let userName = req.cookies.userName;
   // common.resJson(res, null, {userName})
   let user = req.session.user;
-  common.resJson(res, null, {user})
+  userService.findUser({userId: user.userId}, function (err, data) {
+    common.resJson(res, err, data);
+  });
 });
 
 module.exports = router;

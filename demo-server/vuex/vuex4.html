@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+  <input type="text" v-model="userName" @keyup="updateUserName">
+  <p>name: {{name}}</p>
+  <p>greetUser: {{greetUser}}</p>
+</div>
+
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script src="../../node_modules/vuex/dist/vuex.js"></script>
+<script>
+  var mapState = Vuex.mapState;
+  var mapGetters = Vuex.mapGetters;
+  var mapMutations = Vuex.mapMutations;
+  var mapActions = Vuex.mapActions;
+  console.log(mapGetters);
+  var store = new Vuex.Store({
+    state: {
+      name: 'Cindy'
+    },
+    mutations: {
+      updateName(state, newVal){
+        state.name = newVal;
+      }
+    },
+    actions: {
+      updateValue(context, newVal) {
+        context.commit('updateName', newVal);
+      }
+    },
+    getters: {
+      greet(state){
+        return 'Hello ' + state.name;
+      }
+    }
+  });
+
+  var vm = new Vue({
+    store,
+    data(){
+      return {
+        userName: ''
+      }
+    },
+    methods: {
+      ...mapMutations(['updateName']),
+      ...mapActions(['updateValue']),
+      updateUserName(){
+        this.updateValue(this.userName + '?')
+        // this.updateName(this.userName + '!');
+
+      }
+    },
+    computed: {
+      ...mapState({
+        name(state) {
+          return state.name;
+        }
+      }),
+      ...mapGetters({
+        'greetUser': 'greet'
+      })
+      // ...mapGetters(['greet']),
+      // ...mapState(['name']),
+      // name() {
+      //   return this.$store.state.name;
+      // },
+      // greetUser(){
+      //   return this.$store.getters.greet;
+      // }
+    },
+  }).$mount('#app');
+</script>
+</body>
+</html>

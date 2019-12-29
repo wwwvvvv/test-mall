@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <counter></counter>
+</div>
+
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script src="../../node_modules/vuex/dist/vuex.js"></script>
+<script>
+
+  var Counter = {
+    template: `<div>{{count}}</div>`,
+    computed: {
+      count() {
+        return this.$store.state.count;
+      }
+    }
+  };
+
+    var store = new Vuex.Store({
+      state: {
+        count: 0
+      },
+      mutations: {}
+    });
+
+    var vm = new Vue({
+      components: {
+        Counter
+      },
+      computed() {},
+      store
+    }).$mount("#app");
+</script>
+</body>
+</html>

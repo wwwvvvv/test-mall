@@ -6,6 +6,8 @@ import router from './router'
 import VueLazyLoad from 'vue-lazyload'
 import infiniteScroll from 'vue-infinite-scroll'
 import filters from './lib/filters';
+// import vuex from 'vuex';
+import store from './store'
 
 Vue.config.productionTip = false
 
@@ -14,11 +16,13 @@ Vue.use(VueLazyLoad, {
 });
 Vue.use(infiniteScroll);
 Vue.use(filters);
+// Vue.use(vuex);
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 });

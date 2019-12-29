@@ -1,5 +1,6 @@
 <template>
   <div class="order-confirm-ctn">
+    <nav-header></nav-header>
     <div class="container">
       <div class="checkout-order">
         <div class="page-title-normal">
@@ -99,6 +100,7 @@
         </div>
       </div>
     </div>
+    <page-footer></page-footer>
   </div>
 </template>
 
@@ -121,6 +123,10 @@
         
         orderTotalPrice: 0
       }
+    },
+    components: {
+      NavHeader,
+      PageFooter
     },
     computed: {
       // totalPrice() {

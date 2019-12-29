@@ -126,6 +126,7 @@
   import Modal from './../components/Modal';
 
   import API from './../api'
+  import {mapState, mapMutations} from 'vuex'
 
   export default {
     name: "Cart",
@@ -145,6 +146,7 @@
       }
     },
     methods: {
+      ...mapMutations(['updateCartCount']),
       async getCartList() {
         let {code, data} = await API.cart.getCartList();
         if (code === 0) {
@@ -219,6 +221,7 @@
       }
     },
     computed: {
+      ...mapState(['cartCount']),
       checkAllFlag() {
         return this.cartList.length === this.checkedProductCount;
       },
@@ -226,9 +229,11 @@
         let count = 0;
         this.cartList.forEach(item => {
           if (item.checked) {
-            count++;
+            count+= item.productNum;
           }
         });
+        // this.$store.commit('updateCartCount',count);
+        this.updateCartCount(count);
         return count;
       },
       totalPrice() {

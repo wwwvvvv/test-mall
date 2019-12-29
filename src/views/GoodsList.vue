@@ -44,7 +44,7 @@
                     <div class="name">{{item.productName}}</div>
                     <div class="price">{{item.salePrice | currency}}</div>
                     <div class="btn-area">
-                      <a href="javascript:;" class="btn btn--m" @click="addCard(item.productId)">加入购物车</a>
+                      <a href="javascript:;" class="btn btn--m" @click="addCart(item.productId)">加入购物车</a>
                     </div>
                   </div>
                 </li>
@@ -96,6 +96,7 @@
   import Modal from '@/components/Modal';
 
   import API from './../api/index';
+  import {mapState, mapMutations} from 'vuex';
   export default {
     name: "GoodsList",
     components: {
@@ -103,6 +104,9 @@
       PageFooter,
       NavBread,
       Modal
+    },
+    computed: {
+      ...mapState(['cartCount'])
     },
     data() {
       return {//不允许组件之间的数据共享
@@ -146,6 +150,7 @@
       }
     },
     methods: {
+      ...mapMutations(['updateCartCount']),
       async getGoodsList(flag) { // flag 有值——分页
         let params = {
           page: {
@@ -203,7 +208,7 @@
       },
       // tipUserLogin() {
       // },
-      async addCard(productId) {
+      async addCart(productId) {
         let rs = await API.cart.addCart({productId});
         if (rs.code !== 0) {
           this.hasLogin = false;
@@ -212,8 +217,12 @@
           this.hasLogin = true;
         }
         this.modalFlag = true;
-
+        this.updateCart();
+        // this.$store.commit('updateCartCount',)
         console.log(rs);
+      },
+      updateCart(){
+        this.updateCartCount(this.cartCount+1);
       },
       hideModal() {
         this.modalFlag = false;

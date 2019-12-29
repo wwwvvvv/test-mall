@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="app">
+  <counter></counter>
+  <p>父组件：{{count}}</p>
+  <button @click="subCount">subCount</button>
+</div>
+
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script src="../../node_modules/vuex/dist/vuex.js"></script>
+<script>
+  var store = new Vuex.Store({
+    state: {
+      count: 10
+    },
+    mutations: {
+      addCount(state) {
+        state.count++;
+      },
+      subCount(state) {
+        state.count--;
+      }
+    }
+  });
+
+  var Counter = {
+    template: `<div class="ctn">
+ <p>count: {{count}}</p>
+ <button @click="addCount">add count</button>
+</div>`,
+    computed: {
+      count() {
+        return this.$store.state.count;
+      }
+    },
+    methods: {
+      addCount() {
+        this.$store.commit('addCount');
+      }
+    }
+  };
+
+  var vm = new Vue({
+    data() {
+      return {}
+    },
+    components: {
+      Counter
+    },
+    computed: {
+      count() {
+        return this.$store.state.count;
+      }
+    },
+    methods: {
+      subCount() {
+        this.$store.commit('subCount');
+      }
+    },
+    store
+  }).$mount('#app');
+</script>
+</body>
+</html>

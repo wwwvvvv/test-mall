@@ -115,31 +115,57 @@
 <script>
   import API from './../api/index';
   import Modal from './../components/Modal';
+  import {mapState , mapMutations} from 'vuex';
   export default {
     name: "NavHeader",
     components: {
       Modal
     },
+    computed: {
+      // nickName() {
+      //   return this.$store.state.nickName;
+      // }
+      ...mapState(['nickName', 'cartCount'])
+    },
     data() {
       return {
         userName: "",
         password: "",
-        nickName: "",
+        // nickName: "",
         errTip: false,
-        cartCount: 0,
+        // cartCount: 0,
         errTipText: '',
         loginModalFlag: false,
       }
     },
     async mounted() {
+      if (this.nickName) {
+        return;
+      }
+      console.log('this.nickName', this.nickName);
       let rs = await API.users.checkLogin();
       console.log('rs', rs);
-      if (rs.code === 0 && rs.data.user) {
+      if (rs.code === 0 && rs.data) {
         // this.nickName = rs.data.userName;
-        this.nickName = rs.data.user.userName;
+        // this.nickName = rs.data.user.userName;
+        // this.$store.commit('updateUserName', rs.data.user.userName)
+        this.updateUserInfo(rs.data);
       }
     },
     methods: {
+      ...mapMutations(['updateUserName', 'updateCartCount']),
+      updateUserInfo(userInfo) {
+        let cartCount = 0;
+        userInfo.cartList.forEach(item => {
+          if (item.checked) {
+            cartCount += item.productNum;
+          }
+        });
+        console.log('cartCount', cartCount);
+        this.updateCartCount(cartCount);
+        this.updateUserName(userInfo.userName);
+        console.log(userInfo.userName);
+      },
       showLoginModal() {
         this.loginModalFlag = true;
       },
@@ -161,7 +187,11 @@
         if (rs.code === 0) {
           this.errTip = false;
           this.loginModalFlag = false;
-          this.nickName = rs.data.userName;
+          // this.nickName = rs.data.userName;
+          // this.$store.commit('updateUserName', rs.data.userName);
+          // console.log('this.nickName', this.nickName);
+          // this.updateUserName(rs.data.userName);
+          this.updateUserInfo(rs.data);
         } else {
           this.errTipText = rs.msg;
           this.errTip = true;
@@ -171,7 +201,9 @@
         let rs = await API.users.logout();
         console.log(rs);
         if (rs.code === 0) {
-          this.nickName = '';
+          // this.nickName = '';
+          // this.$store.commit('updateUserName', '');
+          this.updateUserName('');
         }
       }
     }
